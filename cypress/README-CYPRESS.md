@@ -67,13 +67,3 @@ git commit -m "Ajout des tests Cypress"
 git push origin main
 ```
 
-## 7. Remplir la section "Confiance" du rapport de testing
-- Assurez-vous que tous les tests nécessaires ont été exécutés et validés.
-- Décrivez les anomalies et les problèmes rencontrés si applicable.
-- Vérifiez que le rapport de test est complet avant validation finale.
-
-## 8. Points de vigilance
-- S'il y a des anomalies, décrivez-les en détail.
-- Assurez-vous que le repo GitHub est **public** pour que le mentor puisse y accéder.
-- Rédigez un README clair et structurant bien les différentes sections.
-
