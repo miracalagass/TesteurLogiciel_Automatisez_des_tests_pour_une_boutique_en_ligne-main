@@ -77,6 +77,3 @@ git push origin main
 - Assurez-vous que le repo GitHub est **public** pour que le mentor puisse y accéder.
 - Rédigez un README clair et structurant bien les différentes sections.
 
----
-**Projet de test automatisé avec Cypress**
-
