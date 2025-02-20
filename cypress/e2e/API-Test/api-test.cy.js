@@ -29,6 +29,63 @@ describe('API Tests with Authorization', () => {
     });
   });
 
+  it('Ajoutez un produit valide au panier', () => {
+    cy.request({
+        method: 'PUT',
+        url: 'http://localhost:8081/orders/add',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        },
+        body: {
+            product: 3, // Örnek bir ürün ID'si
+            quantity: 2
+        }
+    }).then((response) => {
+        expect(response.status).to.eq(200); // Başarılı ekleme kontrolü
+        expect(response.body).to.have.property('orderLines');
+        expect(response.body.orderLines[0].product.id).to.eq(3);
+        expect(response.body.orderLines[0].quantity).to.eq(2);
+    });
+});
+
+it('Ajoutez un produit avec une quantité invalide', () => {
+    cy.request({
+        method: 'PUT',
+        url: 'http://localhost:8081/orders/add',
+        failOnStatusCode: false,
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        },
+        body: {
+            product: 3,
+            quantity: -5 // Geçersiz negatif miktar
+        }
+    }).then((response) => {
+        expect(response.status).to.eq(400); // Geçersiz istek kontrolü
+    });
+});
+
+it('Ne doit pas permettre d’ajouter un produit hors stock', () => {
+  cy.request({
+      method: 'PUT',
+      url: 'http://localhost:8081/orders/add',
+      failOnStatusCode: false,
+      headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+      },
+      body: {
+          product: 3,  // ID 3 olan ürün stokta yok
+          quantity: 1
+      }
+  }).then((response) => {
+      expect(response.status).to.eq(400); // Stokta olmayan ürün eklenemez
+      expect(response.body).to.have.property('error', 'Le produit est en rupture de stock');
+  });
+});
+
   // Test de listing des produits dans le panier
   it("Les produits du panier doivent être listés correctement", () => {
     cy.request({
