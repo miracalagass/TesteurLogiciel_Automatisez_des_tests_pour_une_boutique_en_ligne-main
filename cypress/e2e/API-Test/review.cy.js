@@ -73,5 +73,24 @@ describe('POST /reviews API Tests', () => {
         expect(response.status).to.eq(400);
       });
     });
+
+    it("Ne doit pas permettre un commentaire avec une attaque XSS", () => {
+      cy.request({
+        method: 'POST',
+        url: 'http://localhost:8081/reviews',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: {
+          title: 'Mauvais produit',
+          comment: "<script>alert('XSS')</script>",
+          rating: 0,
+        },
+        failOnStatusCode: false,
+      }).then((response) => {
+        expect(response.status).to.eq(400);
+      });
+    });
   });
   
