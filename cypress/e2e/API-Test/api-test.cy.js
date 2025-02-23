@@ -1,4 +1,4 @@
-let token; // Token'ı global bir değişkende saklayacağız
+let token;
 
 describe('API Tests with Authorization', () => {
 
@@ -38,11 +38,11 @@ describe('API Tests with Authorization', () => {
             'Content-Type': 'application/json'
         },
         body: {
-            product: 3, // Örnek bir ürün ID'si
+            product: 3,
             quantity: 2
         }
     }).then((response) => {
-        expect(response.status).to.eq(200); // Başarılı ekleme kontrolü
+        expect(response.status).to.eq(200);
         expect(response.body).to.have.property('orderLines');
         expect(response.body.orderLines[0].product.id).to.eq(3);
         expect(response.body.orderLines[0].quantity).to.eq(2);
@@ -60,10 +60,10 @@ it('Ajoutez un produit avec une quantité invalide', () => {
         },
         body: {
             product: 3,
-            quantity: -5 // Geçersiz negatif miktar
+            quantity: -5 
         }
     }).then((response) => {
-        expect(response.status).to.eq(400); // Geçersiz istek kontrolü
+        expect(response.status).to.eq(400); 
     });
 });
 
@@ -77,11 +77,11 @@ it('Ne doit pas permettre d’ajouter un produit hors stock', () => {
           'Content-Type': 'application/json'
       },
       body: {
-          product: 3,  // ID 3 olan ürün stokta yok
+          product: 3, 
           quantity: 1
       }
   }).then((response) => {
-      expect(response.status).to.eq(400); // Stokta olmayan ürün eklenemez
+      expect(response.status).to.eq(400);
       expect(response.body).to.have.property('error', 'Le produit est en rupture de stock');
   });
 });
@@ -118,7 +118,7 @@ it('Ne doit pas permettre d’ajouter un produit hors stock', () => {
       }
     }).then((response) => {
       const productId = response.body.orderLines[0].product.id;
-      cy.log('Seçilen Ürün ID:', productId);
+      cy.log('ID du produit sélectionné:', productId);
 
       cy.request({
         method: 'GET',
